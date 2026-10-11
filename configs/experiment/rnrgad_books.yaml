@@ -1,0 +1,37 @@
+# @package _global_
+
+defaults:
+  - override /data: gad
+  - override /model: rnrgad
+  - override /callbacks: rnrgad
+  - override /trainer: gpu
+  - _self_
+
+task_name: rnrgad
+tags:
+  - rnrgad
+  - books
+seed: 42
+reseed_after_model_init: true
+
+data:
+  dataset: books
+  feature_normalization: log_zscore
+  preserve_raw_features: true
+
+model:
+  cfg:
+    mechanism_views:
+      topology:
+        degree_high: false
+    propagation_score:
+      include_stage1_prior: false
+      enabled_components:
+        - propagated_stage1
+    attention:
+      epsilon_max: 2.0
+
+trainer:
+  max_epochs: 50
+
+optimized_metric: val/loss

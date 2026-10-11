@@ -1,0 +1,23 @@
+# @package _global_
+
+defaults:
+  - _self_
+  - data: gad
+  - model: rnrgad
+  - callbacks: rnrgad
+  - logger: null
+  - trainer: gpu
+  - paths: default
+  - extras: default
+  - hydra: default
+  - experiment: null
+  - ablation: null
+
+task_name: train
+tags:
+  - rnrgad
+train: true
+test: true
+ckpt_path: null
+seed: null
+reseed_after_model_init: true

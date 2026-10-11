@@ -1,0 +1,36 @@
+# @package _global_
+
+defaults:
+  - override /data: gad
+  - override /model: rnrgad
+  - override /callbacks: rnrgad
+  - override /trainer: gpu
+  - _self_
+
+task_name: rnrgad
+tags:
+  - rnrgad
+  - inj_cora
+seed: 42
+reseed_after_model_init: true
+
+data:
+  preserve_raw_features: true
+
+model:
+  cfg:
+    mechanism_views:
+      topology:
+        degree_low: false
+    attention:
+      source_prior:
+        - 0.1
+        - 0.1
+        - 0.8
+    crossfit:
+      degree_bins: 4
+
+trainer:
+  max_epochs: 50
+
+optimized_metric: val/loss

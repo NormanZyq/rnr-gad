@@ -1,0 +1,8 @@
+# @package _global_
+
+model:
+  cfg:
+    ablation:
+      disable_direct_anchor: false
+      disable_graph_evidence: true
+      disable_reliability: false

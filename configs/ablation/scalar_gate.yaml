@@ -1,0 +1,4 @@
+# @package _global_
+
+model:
+  _target_: src.models.rnr_gad_v31_scalar_gate_module.RNRGADV31ScalarGateLitModule

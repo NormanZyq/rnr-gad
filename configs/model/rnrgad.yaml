@@ -1,0 +1,44 @@
+defaults:
+  - rnr_gad_v31_global_flat
+  - _self_
+
+_target_: src.models.rnrgad_module.RNRGADLitModule
+
+cfg:
+  propagation_score:
+    enabled_components:
+      - evidence_abs_excess
+      - evidence_highpass
+      - normal_neighbor_residual
+      - profile_normal_residual
+      - propagated_stage1
+      - trajectory_velocity
+      - profile_dirichlet
+      - stage1_harmonic_abs
+      - stage1_harmonic_pos
+    require_component_eligibility: false
+
+  attention:
+    include_graph_final_token: false
+    use_token_delta_features: false
+    use_orientation_identity: false
+
+    use_rerank_head: false
+    rerank_residual_scale: 0.0
+
+    mse_weight: 0.0
+    rank_weight: 1.0
+    top_tail_weight: 0.5
+    extreme_tail_listwise_weight: 0.05
+    stage1_protection_weight: 0.15
+    source_reliability_weight: 0.0
+    source_sparsity_weight: 0.0
+    source_alignment_weight: 0.0
+    sparsity_weight: 0.0
+    tail_anchor_weight: 0.0
+    single_source_credibility_weight: 0.0
+    single_spike_weight: 0.0
+    stability_weight: 0.0
+    rerank_l2_weight: 0.0
+
+    project_to_stage1: true

@@ -1,0 +1,38 @@
+# @package _global_
+
+defaults:
+  - override /data: gad
+  - override /model: rnr_gad_v31_global_flat
+  - override /callbacks: rnrgad
+  - override /trainer: gpu
+  - _self_
+
+task_name: rnrgad
+tags:
+  - rnrgad
+  - tfinance
+seed: 42
+reseed_after_model_init: true
+
+data:
+  dataset: tfinance
+  feature_normalization: log_row_l2
+
+model:
+  cfg:
+    pretrain_epochs: 5
+    correction_epochs: 5
+    propagation_score:
+      enabled_components:
+        - propagated_stage1
+      component_orientations:
+        propagated_stage1:
+          - high
+    attention:
+      project_to_stage1: true
+      epsilon_max: 1.0
+
+trainer:
+  max_epochs: 10
+
+optimized_metric: val/loss

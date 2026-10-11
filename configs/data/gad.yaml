@@ -1,0 +1,13 @@
+_target_: src.data.gad_datamodule.GADDataModule
+
+dataset: inj_cora
+batch_size: 1
+num_workers: 0
+unify_anomaly_types: true
+attr_anomaly: true
+struct_anomaly: true
+combined_anomaly: true
+
+cache_dir: ${paths.data_dir}/pygod
+feature_normalization: none
+preserve_raw_features: false

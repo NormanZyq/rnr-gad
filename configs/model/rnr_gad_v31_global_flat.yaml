@@ -1,0 +1,252 @@
+_target_: src.models.rnr_gad_v31_module.RNRGADV31LitModule
+
+optimizer:
+  _target_: torch.optim.Adam
+  _partial_: true
+  lr: 0.001
+  weight_decay: 1.0e-05
+
+scheduler: null
+
+cfg:
+  use_phase_epochs: true
+  pretrain_epochs: 40
+  correction_epochs: 10
+  in_dim: null
+  backbone: gcn
+  hidden_dim: 64
+  embedding_dim: 64
+  adapter_dim: 32
+  num_layers: 2
+  dropout: 0.3
+  zero_init_adapter: true
+  views:
+    attribute: true
+    structure: true
+    context: true
+    density: false
+  mechanism_views:
+    topology:
+      degree_low: true
+      degree_high: true
+      egonet_density: false
+    local_consistency:
+      neighbor_l2: true
+      neighbor_cosine: true
+    global_attribute:
+      feature_mean_distance: true
+      feature_knn_distance: true
+      knn_k: 10
+      max_dense_knn_nodes: 12000
+  learned_view_groups:
+    attribute: learned
+    structure: learned
+    context: learned
+    density: learned
+  calibration:
+    method: conditional_empirical_tail
+    default_strata: degree_bins
+    topology_strata: global
+    local_consistency_strata: degree_bins
+    global_attribute_strata: global
+    learned_strata: degree_bins
+  aggregation:
+    within_group: bonferroni_min
+    across_group: cauchy
+    ignore_large_p: true
+    learned_group_policy: eligible_only
+    initial_group_weights: uniform
+    min_group_weight: 0.1
+    max_group_weight: 0.4
+  propagation_score:
+    hops: 4
+    include_stage1_prior: true
+    stage1_prior_weight: 0.5
+    component_weight: 1.0
+    project_to_stage1: false
+    orientation_policy: configured
+    default_orientations:
+      - low
+      - two
+    enabled_components:
+      - evidence_abs_excess
+      - evidence_highpass
+      - normal_neighbor_residual
+      - profile_normal_residual
+      - propagated_stage1
+      - trajectory_velocity
+      - evidence_dirichlet
+      - profile_dirichlet
+      - stage1_harmonic_abs
+      - stage1_harmonic_pos
+    component_orientations:
+      evidence_abs_excess:
+        - low
+        - two
+      evidence_highpass:
+        - low
+        - two
+      normal_neighbor_residual:
+        - low
+        - two
+      profile_normal_residual:
+        - low
+        - two
+      propagated_stage1:
+        - low
+        - two
+      trajectory_velocity:
+        - low
+        - two
+      evidence_dirichlet:
+        - high
+        - two
+      profile_dirichlet:
+        - high
+        - two
+      stage1_harmonic_abs:
+        - low
+        - two
+      stage1_harmonic_pos:
+        - low
+        - two
+    require_component_eligibility: true
+    min_component_signal: 0.05
+    max_component_spearman: 0.995
+    top_tail_q: 0.05
+    max_tail_overlap_fraction: 1.0
+  attention:
+    epochs: 10
+    d_model: 32
+    num_heads: 4
+    num_layers: 1
+    dropout: 0.1
+    temperature: 1.0
+    use_source_gate: true
+    source_prior:
+      - 0.45
+      - 0.35
+      - 0.2
+    source_dropout: 0.15
+    use_source_reliability: true
+    source_reliability_scale: 0.25
+    use_rerank_head: true
+    rerank_residual_scale: 0.08
+    max_component_tokens: 8
+    num_target_masks: 4
+    build_target_inputs: true
+    target_source: heldout_consensus
+    target_component_reducer: median
+    top_tail_q: 0.05
+    max_rank_pairs: 20000
+    max_stage1_pairs: 20000
+    max_stage2_pairs: 20000
+    max_top_tail_pairs: 20000
+    rank_margin: 0.02
+    rank_temperature: 0.1
+    auc_guard_weight: 0.0
+    max_auc_guard_pairs: 20000
+    auc_guard_margin: 0.0
+    auc_guard_temperature: 0.1
+    stage1_protection_weight: 0.15
+    stage1_protection_margin: 0.05
+    stage2_protection_weight: 0.0
+    stage2_protection_margin: 0.05
+    top_tail_weight: 0.5
+    top_tail_q_high: 0.9
+    top_tail_q_low: 0.5
+    extreme_tail_listwise_weight: 0.05
+    extreme_tail_q: 0.02
+    max_extreme_tail_nodes: 4096
+    extreme_tail_temperature: 0.05
+    extreme_tail_target_temperature: 0.05
+    adaptive_extreme_tail: false
+    adaptive_tail_mad_scale: 1.8
+    adaptive_tail_min_quantile: 0.9
+    adaptive_tail_min_nodes: 8
+    adaptive_tail_window_multipliers:
+      - 1.0
+      - 2.0
+      - 4.0
+    adaptive_tail_target_mix: 0.1
+    adaptive_tail_credibility_mix: 0.25
+    tail_anchor_weight: 0.35
+    tail_anchor_mode: second_source
+    tail_anchor_target_mix: 0.15
+    tail_anchor_component_reducer: max
+    tail_anchor_q_high: 0.95
+    tail_anchor_q_low: 0.6
+    max_tail_anchor_pairs: 20000
+    single_spike_weight: 0.15
+    single_spike_q_high: 0.95
+    single_spike_q_second_low: 0.7
+    max_single_spike_pairs: 20000
+    source_alignment_weight: 0.05
+    source_alignment_temperature: 0.25
+    source_alignment_top_tail_q: 0.05
+    source_reliability_weight: 0.05
+    single_source_credibility_weight: 0.05
+    single_source_credibility_q_high: 0.95
+    single_source_credibility_q_low: 0.6
+    single_source_credibility_gap_q: 0.75
+    rerank_l2_weight: 0.01
+    mse_weight: 0.25
+    rank_weight: 1.0
+    stability_weight: 0.1
+    sparsity_weight: 0.005
+    source_sparsity_weight: 0.02
+    usage_entropy_weight: 0.0
+    project_to_stage1: false
+    epsilon_max: 0.05
+  pretrain:
+    lambda_attribute: 1.0
+    lambda_structure: 1.0
+    lambda_context: 0.2
+    lambda_density: 0.0
+  crossfit:
+    num_train_masks: 4
+    num_eval_masks: 10
+    feature_mask_rate: 0.4
+    edge_holdout_rate: 0.1
+    neg_ratio: 1.0
+    aggregation: weighted_median
+    degree_bins: 3
+    eps: 1.0e-08
+    density_knn_k: 10
+    max_dense_knn_nodes: 12000
+  refinement:
+    outer_steps: 1
+    inner_epochs: 1
+    update_scope: none
+    robust_loss: none
+    robust_scale_method: median_mad
+    robust_scale_factor: 3.0
+    proximal_weight: 2.0
+    message_reweight_beta: 0.4
+    min_normal_weight: 0.0001
+    normal_weight_floor: 0.1
+    normal_weight_alpha: 0.1
+    learned_task_weighting: uniform
+    min_train_view_scale: 0.0001
+  rank_safety:
+    enabled: true
+    epsilon_max: 0.05
+    confidence_source: view_and_mask_stability
+    base_score: stage1_multiview_score
+    mask_instability_weight: 1.0
+    max_pairs: 200000
+  selection:
+    monitor: rnrv31_objective
+    use_labels: false
+    accept_tolerance: 1.0e-08
+    require_stage2_eligibility: false
+    min_learned_group_signal: 1.0
+    min_learned_static_spearman: 0.05
+    min_active_learned_views: 1
+  optimization:
+    gradient_clip_val: 1.0
+    gradient_clip_algorithm: norm
+  test_pair_sample_max: 200000
+  save_test_outputs: true
+
+compile: false

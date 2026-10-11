@@ -1,0 +1,40 @@
+# @package _global_
+
+defaults:
+  - override /data: gad
+  - override /model: rnrgad
+  - override /callbacks: rnrgad
+  - override /trainer: gpu
+  - _self_
+
+task_name: rnrgad
+tags:
+  - rnrgad
+  - weibo
+seed: 42
+reseed_after_model_init: true
+
+data:
+  dataset: weibo
+
+model:
+  cfg:
+    mechanism_views:
+      topology:
+        degree_low: false
+        degree_high: false
+      local_consistency:
+        neighbor_cosine: false
+    calibration:
+      local_consistency_strata: global
+    propagation_score:
+      enabled_components:
+        - propagated_stage1
+    selection:
+      require_stage2_eligibility: true
+      min_learned_group_signal: 3.0
+
+trainer:
+  max_epochs: 50
+
+optimized_metric: val/loss

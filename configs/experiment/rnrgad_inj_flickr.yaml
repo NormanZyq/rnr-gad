@@ -1,0 +1,30 @@
+# @package _global_
+
+defaults:
+  - override /data: gad
+  - override /model: rnrgad
+  - override /callbacks: rnrgad
+  - override /trainer: gpu
+  - _self_
+
+task_name: rnrgad
+tags:
+  - rnrgad
+  - inj_flickr
+seed: 42
+reseed_after_model_init: true
+
+data:
+  dataset: inj_flickr
+  preserve_raw_features: true
+
+model:
+  cfg:
+    mechanism_views:
+      topology:
+        degree_low: false
+
+trainer:
+  max_epochs: 50
+
+optimized_metric: val/loss

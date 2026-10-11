@@ -1,0 +1,48 @@
+# @package _global_
+
+defaults:
+  - override /data: gad
+  - override /model: rnrgad
+  - override /callbacks: rnrgad
+  - override /trainer: gpu
+  - _self_
+
+task_name: rnrgad
+tags:
+  - rnrgad
+  - reddit
+seed: 42
+reseed_after_model_init: true
+
+data:
+  dataset: reddit
+
+model:
+  optimizer:
+    lr: 0.003
+  cfg:
+    pretrain_epochs: 100
+    mechanism_views:
+      topology:
+        degree_low: false
+        degree_high: false
+    calibration:
+      local_consistency_strata: global
+    propagation_score:
+      enabled_components:
+        - trajectory_velocity
+      component_orientations:
+        trajectory_velocity:
+          - high
+          - two
+    attention:
+      source_prior:
+        - 0.05
+        - 0.05
+        - 0.9
+      epsilon_max: 1
+
+trainer:
+  max_epochs: 110
+
+optimized_metric: val/loss

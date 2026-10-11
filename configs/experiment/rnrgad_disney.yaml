@@ -1,0 +1,36 @@
+# @package _global_
+
+defaults:
+  - override /data: gad
+  - override /model: rnrgad
+  - override /callbacks: rnrgad
+  - override /trainer: gpu
+  - _self_
+
+task_name: rnrgad
+tags:
+  - rnrgad
+  - disney
+seed: 42
+reseed_after_model_init: true
+
+data:
+  dataset: disney
+  feature_normalization: zscore
+  preserve_raw_features: true
+
+model:
+  cfg:
+    attention:
+      source_prior:
+        - 0.05
+        - 0.05
+        - 0.9
+      epsilon_max: 0.7
+    crossfit:
+      degree_bins: 1
+
+trainer:
+  max_epochs: 50
+
+optimized_metric: val/loss

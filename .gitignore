@@ -1,0 +1,67 @@
+# Python caches and tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.tox/
+.nox/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.ipynb_checkpoints/
+
+# Local environments and package builds
+.venv*/
+/venv/
+/env/
+/ENV/
+.conda/
+/build/
+/dist/
+*.egg-info/
+.eggs/
+
+# Downloaded datasets and training outputs
+/data/pygod/
+/.pygod/
+/.pyg_data/
+/logs/
+/outputs/
+/multirun/
+/checkpoints/
+/predictions/
+/lightning_logs/
+/wandb/
+/mlruns/
+.hydra/
+*.ckpt
+events.out.tfevents.*
+*.log
+
+# Local configuration; keep shareable examples
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+
+# Editor, OS, and temporary files
+.idea/
+.vscode/
+.cache/
+.DS_Store
+._*
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
+*.bak
+*.orig
+*.tmp
+*.json.new
+*.yaml.new
+*.csv.new

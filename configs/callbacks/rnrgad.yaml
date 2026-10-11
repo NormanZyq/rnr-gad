@@ -1,0 +1,14 @@
+defaults:
+  - gad_unsup
+  - _self_
+
+# Keep each seed's checkpoints in its own directory.
+model_checkpoint:
+  dirpath: ${paths.output_dir}/checkpoints/seed_${seed}
+  filename: "epoch_{epoch:03d}"
+  monitor: "val/loss"
+  mode: "min"
+  save_last: true
+  save_top_k: 1
+  enable_version_counter: false
+  auto_insert_metric_name: false

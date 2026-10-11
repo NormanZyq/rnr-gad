@@ -1,0 +1,19 @@
+# @package _global_
+
+defaults:
+  - _self_
+  - data: gad
+  - model: rnrgad
+  - callbacks: rnrgad
+  - logger: null
+  - trainer: gpu
+  - paths: default
+  - extras: default
+  - hydra: default
+  - experiment: null
+  - ablation: null
+
+task_name: eval
+tags:
+  - rnrgad
+ckpt_path: ???
