@@ -16,16 +16,24 @@ pip install -r requirements.txt
 ## Training
 
 Run from the project root. Replace `xxx` with a configuration name from
-`configs/experiment/`, without `.yaml`, such as `rnrgad_disney`.
+`configs/experiment/`, without `.yaml`, such as `rnrgad_disney`. Dataset will be downloaded automatically.
 
 Single-seed training:
 
 ```sh
 python src/train.py experiment=xxx
+
+python src/train.py experiment=rnrgad_books
+python src/train.py experiment=rnrgad_disney
+python src/train.py experiment=rnrgad_inj_cora
 ```
 
 Multi-seed training:
 
 ```sh
 python src/multi_train.py experiment=xxx
+
+python src/multi_train.py experiment=rnrgad_books
+python src/multi_train.py experiment=rnrgad_disney
+python src/multi_train.py experiment=rnrgad_inj_cora
 ```
